@@ -1,5 +1,7 @@
 import database from './database.js';
 
+const prompt = require('prompt-sync')([singint=true]);
+
 async function main() {
     try {
         // Garantir que o banco está inicializado

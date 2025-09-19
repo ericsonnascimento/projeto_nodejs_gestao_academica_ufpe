@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const { verbose } = sqlite3;
 const { Database } = verbose();
 
-const dbPath = path.join(__dirname, 'meubanco.db');
+const dbPath = path.join(__dirname, 'db.sqlite3');
 const db = new Database(dbPath);
 
 // Função para inicializar o banco
