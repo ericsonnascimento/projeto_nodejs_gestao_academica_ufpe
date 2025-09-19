@@ -1,1 +1,2 @@
-# projeto_nodejs_gestao_academica_ufpe
+# Projeto Node.js Softex (UFPE) - Gestão Acadêmica 
+
