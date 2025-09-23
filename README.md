@@ -9,11 +9,11 @@
 
 ## Aruiteturta do Projeto
 
-projeto/
-├── database/
-│   ├── index.js          # Ponto de entrada principal
-│   ├── alunos.js         # Funções de alunos
-│   ├── professores.js    # Funções de professores
-│   └── administrativo.js # Funções de administrativo
-├── app.js
-└── package.json
+projeto/<br/>
+├── database/<br/>
+│   ├── index.js          # Ponto de entrada principal<br/>
+│   ├── alunos.js         # Funções de alunos<br/>
+│   ├── professores.js    # Funções de professores<br/>
+│   └── administrativo.js # Funções de administrativo<br/>
+├── app.js<br/>
+└── package.json<br/>
