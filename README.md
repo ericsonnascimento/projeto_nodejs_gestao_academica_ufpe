@@ -7,3 +7,13 @@
 3. node .\database.js (Criação do DB db.sqlite3 caso não exista)
 4. node .\app.js (Execução da aplicação)
 
+## Aruiteturta do Projeto
+
+projeto/
+├── database/
+│   ├── index.js          # Ponto de entrada principal
+│   ├── alunos.js         # Funções de alunos
+│   ├── professores.js    # Funções de professores
+│   └── administrativo.js # Funções de administrativo
+├── app.js
+└── package.json
