@@ -64,7 +64,7 @@ async function inicializarBanco() {
     }
 }
 
-// Funções do banco de dados
+// FUNÇÃO INSERIR ALUNO
 function inserirAlunoDB(nome, email) {
     return new Promise((resolve, reject) => {
         const sql = `INSERT INTO alunos (nome, email) VALUES (?, ?)`;
@@ -75,6 +75,7 @@ function inserirAlunoDB(nome, email) {
     });
 }
 
+//FUNÇÃO BUSCAR TODOS OS ALUNOS
 function buscarAlunosDB() {
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM alunos`;
@@ -139,8 +140,6 @@ function deletarAlunoDB(id) {
         });
     });
 }
-
-
 
 // Inicializar o banco
 inicializarBanco().catch(console.error);
