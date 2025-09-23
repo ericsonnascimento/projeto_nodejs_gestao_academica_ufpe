@@ -3,23 +3,23 @@ import prompt from 'prompt-sync';
 
 const promptSync = prompt({ sigint: true });
 
-/*
+
 //para que o while funcione a variável tem que estar fora do loop
 let menu;
 
 //função que chama o menu principal, reduz a repetição de código 
-//menuInicial();
+menuInicial();
 
 //criando o loop infinito através do "do while"
 do {
     //prompt principal relacionado ao menu    
-    menu = parseInt(promptSync('Para reimprimir o MENU(6) ou SAIR(7) | Escolha um código do MENU: '));
+    menu = parseInt(promptSync('Para reimprimir o MENU(4) ou SAIR(5) | Escolha um código do MENU: '));
     console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
 
     //utilizando o "switch" para gerenciar o MENU, objetivo é que cada CASE chame uma função entre as oções de 1 à 7
     switch (menu) {
         case 1:
-            classificarNadador();
+            menuAdministrativo();
             break;
     
         case 2:
@@ -31,18 +31,10 @@ do {
             break;
         
         case 4:
-            calcularDebido();
-            break;
-    
-        case 5:
-            calcularAumento();
-            break;
-        
-        case 6:
             menuInicial();
             break;
 
-        case 7:
+        case 5:
             console.log('=-=-=-=-Obrigado por utilizar nosso sistema. Volte Sempre!=-=-=-=-=');
             console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
             break;
@@ -53,8 +45,8 @@ do {
     }
 
 //condicional do "do while" para sair do loop infinito
-} while (menu != 7);
-*/
+} while (menu != 5);
+
 
 let novoAluno;
 
@@ -117,7 +109,7 @@ async function editarAluno(id, novoNome, novoEmail) {
         const alunoExistente = await database.buscarAlunoPorIdDB(id);
         
         if (!alunoExistente) {
-            console.log('❌ Aluno não encontrado!');
+            console.log('Aluno não encontrado!');
             return;
         }
 
@@ -127,14 +119,14 @@ async function editarAluno(id, novoNome, novoEmail) {
         const resultado = await database.editarAlunoDB(id, novoNome, novoEmail);
         
         if (resultado.success) {
-            console.log('✅ Aluno editado com sucesso!');
+            console.log('Aluno editado com sucesso!');
             console.log(`Novos dados: ${novoNome} (${novoEmail})`);
         } else {
-            console.log('❌ Erro ao editar aluno:', resultado.message);
+            console.log('Erro ao editar aluno:', resultado.message);
         }
         
     } catch (error) {
-        console.error('❌ Erro ao editar aluno:', error.message);
+        console.error('Erro ao editar aluno:', error.message);
     }
 }
 
@@ -181,20 +173,75 @@ async function deletarAluno(id) {
     }
 }
 
+function menuAdministrativo() {
+    console.log('=-=-=-=-= ADMINISTRATIVO =-=-=-=-');
+    console.log('| Código | Cargo                |');
+    console.log('|--------|----------------------|');
+    console.log('|   1    | Gestão Administrativo|');
+    console.log('|   2    | Gestão de Professor  |');
+    console.log('|   3    | Gestão de Aluno      |');
+    console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
+
+    let menu = promptSync('Escolha uma das opções do menu: ');
+    let subMenu;   
+
+    switch(menu) {
+        case(1):
+            console.log('=-=-=-=-= ADMINISTRATIVO =-=-=-=-');
+            console.log('| Código | Cargo                |');
+            console.log('|--------|----------------------|');
+            console.log('|   1    | Cadastrar            |');
+            console.log('|   2    | Editar               |');
+            console.log('|   3    | Consultar            |');
+            console.log('|   3    | Deletar              |');
+            console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
+
+            subMenu = promptSync('Escolha uma opção: ')
+
+            cadastrarAluno()
+
+        break;
+
+        case(2):
+        break
+
+        case(3):
+        break
+    }
+}
+
+//função para o menu principal
+function menuInicial() {
+    console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-');
+    console.log('|                                                                        |');
+    console.log('=-=-=-=-=-=-=-=-=--=- SISTEMA DE GESTÃO ACADÊMICA =-=-=-=-=-=-=-=-=-=-=-=-');
+    console.log('| Código | Função                    | Explicação                        |');
+    console.log('|--------|---------------------------|-----------------------------------|');
+    console.log('|    1   | Administrativo            | Gestão de Aluno, Professor e ADM  |');
+    console.log('|    2   | Professor                 | Consulta Aluno                    |');
+    console.log('|    3   | Aluno                     | Consulta Professor                |');
+    console.log('|    4   | Menu                      | Impressão do Menu                 |');
+    console.log('|    5   | Sair                      | Sair do sistema                   |');
+    console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-');
+}
+/*
 // EXEMPLOS DE USO:
 async function main() {
     // Listar alunos antes
-    //await listarAlunos();
+    await listarAlunos();
     
     // Editar aluno com ID 1
-    //await editarAluno(1, 'Maria Silva Updated', 'maria.updated@email.com');
+    await editarAluno(1, 'João Paulo', 'joao@email.com');
     
     // Deletar aluno com ID 2
-    await deletarAluno(1);
+    await deletarAluno(5);
     
     // Listar alunos depois
     await listarAlunos();
 }
+*/
 
 // Executar
-main();
+//main();
+
+//cadastrarAluno()
