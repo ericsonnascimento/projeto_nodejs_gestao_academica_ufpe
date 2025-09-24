@@ -143,6 +143,86 @@ function deletarAlunoDB(id) {
 }
 // ------------------------------------------- FIM CRUD Aluno -------------------------------------------
 
+// ------------------------------------------ INICIO CRUD Professor ---------------------------------------
+// função DB para inserir aluno
+function inserirProfessorDB(nome, email) {
+    return new Promise((resolve, reject) => {
+        const sql = `INSERT INTO professores (nome, email) VALUES (?, ?)`;
+        db.run(sql, [nome, email], function(err) {
+            if (err) reject(err);
+            else resolve({ id: this.lastID, nome, email });
+        });
+    });
+}
+
+//função DB para buscar todos os alunos
+function buscarProfessorDB() {
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT * FROM professores`;
+        db.all(sql, [], (err, rows) => {
+            if (err) reject(err);
+            else resolve(rows);
+        });
+    });
+}
+
+//função DB para buscar aluno por ID
+function buscarProfessorPorIdDB(id) {
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT * FROM professores WHERE id = ?`;
+        db.get(sql, [id], (err, row) => {
+            if (err) reject(err);
+            else resolve(row || null);
+        });
+    });
+}
+
+//função DB para editar aluno por ID
+function editarProfessorDB(id, nome, email) {
+    return new Promise((resolve, reject) => {
+        const sql = `UPDATE professores SET nome = ?, email = ? WHERE id = ?`;
+        db.run(sql, [nome, email, id], function(err) {
+            if (err) {
+                reject(err);
+            } else {
+                if (this.changes === 0) {
+                    resolve({ success: false, message: 'Professor não encontrado' });
+                } else {
+                    resolve({ 
+                        success: true, 
+                        message: 'Professor atualizado com sucesso',
+                        changes: this.changes 
+                    });
+                }
+            }
+        });
+    });
+}
+
+//função DB para deletar aluno por ID
+function deletarProfessorDB(id) {
+    return new Promise((resolve, reject) => {
+        const sql = `DELETE FROM professores WHERE id = ?`;
+        db.run(sql, [id], function(err) {
+            if (err) {
+                reject(err);
+            } else {
+                if (this.changes === 0) {
+                    resolve({ success: false, message: 'Professor não encontrado' });
+                } else {
+                    resolve({ 
+                        success: true, 
+                        message: 'Professor deletado com sucesso',
+                        changes: this.changes 
+                    });
+                }
+            }
+        });
+    });
+}
+// ------------------------------------------- FIM CRUD Professor ----------------------------------------
+
+
 // Exportar todas as funções
 export default {
     db,
@@ -151,5 +231,10 @@ export default {
     buscarAlunosDB,
     buscarAlunoPorIdDB,
     editarAlunoDB,
-    deletarAlunoDB
+    deletarAlunoDB,
+    inserirProfessorDB,
+    buscarProfessorDB,
+    buscarProfessorPorIdDB,
+    editarProfessorDB,
+    deletarProfessorDB
 };
