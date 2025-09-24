@@ -22,3 +22,18 @@ projeto/<br/>
 │   └── administrativo.js # Funções Objeto de administrativo<br/>
 ├── app.js<br/>
 └── package.json<br/>
+
+## Excutar projeto por ícone na Área de Trabalho
+
+1. Criar na área de trabalho e renomear para programa.bat
+2. Editar incluindo o seguinte código:
+
+    '''@echo off<br/>
+    chcp 65001 > nul<br/>
+    title Sistema de Gestão Acadêmica<br/>
+    cd /d "C:\PROJETOS\meu_projeto"<br/>
+    echo Iniciando o sistema...<br/>
+    node app.js<br/>
+    pause'''<br/>
+
+3. Basta ajustar e executar.

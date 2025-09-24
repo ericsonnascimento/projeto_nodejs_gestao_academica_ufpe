@@ -53,7 +53,7 @@ async function listarAlunos() {
         const listandoAlunos = await database.buscarAlunosDB(); // Adicione o AWAY
         
         if (Array.isArray(listandoAlunos)) {
-            console.log('\n=== ALUNOS ENCONTRADOS ===');
+            console.log('\n=-=-=-=-==-=-=-=-=-=-=-=-= Alunos Encontrados -=-=-=-=-=-=-=-=-=-=-=-=-=-=');
             
             if (listandoAlunos.length === 0) {
                 console.log('Nenhum aluno cadastrado.');
@@ -116,12 +116,12 @@ async function deletarAluno(id) {
             return;
         }
 
-        console.log(`ATENÇÃO: Você está prestes a deletar o aluno:`);
-        console.log(`Nome: ${aluno.nome}`);
-        console.log(`Email: ${aluno.email}`);
-        console.log(`ID: ${aluno.id}`);
+        console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-');
+        console.log(`-=-=-=-=-=-= ATENÇÃO: Você está prestes a EXCLUIR o aluno: =-=-=-=-=-=-=-`);
+        console.log(`ID: ${aluno.id} | Nome: ${aluno.nome} | Email: ${aluno.email}`);
+        console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-');
         
-        let confirmar = promptSync('Digite "sim" para confirmar ou "não" para sair: ');
+        let confirmar = promptSync('Digite "SIM" para confirmar ou "NÃO" para sair: ');
         
         if (confirmar === 'sim') {
             confirmar = true;
@@ -232,9 +232,6 @@ function menuInicial() {
 // -------------------------------------- FIM de funções auxiliares --------------------------------------
 
 // ---------------------------------- INICIO da função do menu princial ----------------------------------
-//função que chama o menu principal
-menuInicial();
-
 //criando o loop infinito através do "while"
 async function main() {
     await inicializarSistema();
