@@ -141,9 +141,6 @@ function deletarAlunoDB(id) {
     });
 }
 
-// Inicializar o banco
-inicializarBanco().catch(console.error);
-
 // Exportar todas as funções
 export default {
     db,
