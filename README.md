@@ -25,8 +25,8 @@ projeto/<br/>
 
 ## Excutar projeto por ícone na Área de Trabalho
 
-1. Criar na área de trabalho e renomear para programa.bat
-2. Editar incluindo o seguinte código:
+1. Criar um arquivo TXT na área de trabalho e renomear para programa.bat
+2. Incluindo o código abaixo dentro do programa.bat:
 
     ```
     @echo off
@@ -38,4 +38,5 @@ projeto/<br/>
     pause
     ```
 
-3. Basta ajustar e executar.
+3. Ajustar o caminho ao qual o projeto foi salvo no seu desktop.
+4. Executar pressionando duas vezes
