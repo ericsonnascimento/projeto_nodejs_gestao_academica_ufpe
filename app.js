@@ -33,6 +33,7 @@ class Aluno {
 
 }
 
+// ------------------------------------------ INICIO CRUD Aluno ------------------------------------------
 //variável global 
 let novoAluno;
 
@@ -146,7 +147,10 @@ async function deletarAluno(id) {
         console.error('Erro ao deletar aluno:', error.message);
     }
 }
+// ------------------------------------------- FIM CRUD Aluno -------------------------------------------
 
+// ------------------------------------ INICIO de funções auxiliares -------------------------------------
+//função menu colaborador administrativo
 async function menuAdministrativo() {
     
     console.log('=-=-=-=-= ADMINISTRATIVO =-=-=-=-');
@@ -178,6 +182,7 @@ async function menuAdministrativo() {
     }
 }
 
+//função menu gestão de alunos
 async function menuGestaoAluno() {
     console.log('=-=-=-=- GESTÃO DE ALUNO -=-=--=-');
     console.log('| Código | Cargo                |');
@@ -224,11 +229,13 @@ function menuInicial() {
     console.log('|    4   | Sair                      | Sair do sistema                   |');
     console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-');
 }
+// -------------------------------------- FIM de funções auxiliares --------------------------------------
 
-//função que chama o menu principal, reduz a repetição de código 
+// ---------------------------------- INICIO da função do menu princial ----------------------------------
+//função que chama o menu principal
 menuInicial();
 
-//criando o loop infinito através do "do while"
+//criando o loop infinito através do "while"
 async function main() {
     await inicializarSistema();
     
@@ -265,30 +272,6 @@ async function main() {
         }
     }
 }
-// EXECUTE O MAIN
+// executando o main()
 main().catch(console.error);
-
-
-/*
-// EXEMPLOS DE USO:
-async function main() {
-    // Listar alunos antes
-    await listarAlunos();
-    
-    // Editar aluno com ID 1
-    await editarAluno(1, 'João Paulo', 'joao@email.com');
-    
-    // Deletar aluno com ID 2
-    await deletarAluno(5);
-    
-    // Listar alunos depois
-    await listarAlunos();
-}
-*/
-
-// Executar
-//main();
-
-//cadastrarAluno()
-//menuGestaoAdministrativo()
-//menuAdministrativo()
+// ------------------------------------ FIM da função do menu princial -----------------------------------

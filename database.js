@@ -64,7 +64,8 @@ async function inicializarBanco() {
     }
 }
 
-// FUNÇÃO INSERIR ALUNO
+// ------------------------------------------ INICIO CRUD Aluno ------------------------------------------
+// função DB para inserir aluno
 function inserirAlunoDB(nome, email) {
     return new Promise((resolve, reject) => {
         const sql = `INSERT INTO alunos (nome, email) VALUES (?, ?)`;
@@ -75,7 +76,7 @@ function inserirAlunoDB(nome, email) {
     });
 }
 
-//FUNÇÃO BUSCAR TODOS OS ALUNOS
+//função DB para buscar todos os alunos
 function buscarAlunosDB() {
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM alunos`;
@@ -86,7 +87,7 @@ function buscarAlunosDB() {
     });
 }
 
-// FUNÇÃO PARA BUSCAR ALUNO POR ID
+//função DB para buscar aluno por ID
 function buscarAlunoPorIdDB(id) {
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM alunos WHERE id = ?`;
@@ -97,7 +98,7 @@ function buscarAlunoPorIdDB(id) {
     });
 }
 
-// FUNÇÃO PARA EDITAR ALUNO
+//função DB para editar aluno por ID
 function editarAlunoDB(id, nome, email) {
     return new Promise((resolve, reject) => {
         const sql = `UPDATE alunos SET nome = ?, email = ? WHERE id = ?`;
@@ -119,7 +120,7 @@ function editarAlunoDB(id, nome, email) {
     });
 }
 
-// FUNÇÃO PARA DELETAR ALUNO
+//função DB para deletar aluno por ID
 function deletarAlunoDB(id) {
     return new Promise((resolve, reject) => {
         const sql = `DELETE FROM alunos WHERE id = ?`;
@@ -140,6 +141,7 @@ function deletarAlunoDB(id) {
         });
     });
 }
+// ------------------------------------------- FIM CRUD Aluno -------------------------------------------
 
 // Exportar todas as funções
 export default {
