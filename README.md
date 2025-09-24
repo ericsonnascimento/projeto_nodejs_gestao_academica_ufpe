@@ -28,12 +28,14 @@ projeto/<br/>
 1. Criar na área de trabalho e renomear para programa.bat
 2. Editar incluindo o seguinte código:
 
-    ```@echo off
+    ```
+    @echo off
     chcp 65001 > nul
     title Sistema de Gestão Acadêmica
     cd /d "C:\PROJETOS\meu_projeto"
     echo Iniciando o sistema...
     node app.js
-    pause```
+    pause
+    ```
 
 3. Basta ajustar e executar.
