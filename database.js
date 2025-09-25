@@ -143,8 +143,8 @@ function deletarAlunoDB(id) {
 }
 // ------------------------------------------- FIM CRUD Aluno -------------------------------------------
 
-// ------------------------------------------ INICIO CRUD Professor ---------------------------------------
-// função DB para inserir aluno
+// ---------------------------------------- INICIO CRUD Professor ---------------------------------------
+// função DB para inserir professor
 function inserirProfessorDB(nome, email) {
     return new Promise((resolve, reject) => {
         const sql = `INSERT INTO professores (nome, email) VALUES (?, ?)`;
@@ -155,7 +155,7 @@ function inserirProfessorDB(nome, email) {
     });
 }
 
-//função DB para buscar todos os alunos
+//função DB para buscar todos os professores
 function buscarProfessorDB() {
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM professores`;
@@ -166,7 +166,7 @@ function buscarProfessorDB() {
     });
 }
 
-//função DB para buscar aluno por ID
+//função DB para buscar professor por ID
 function buscarProfessorPorIdDB(id) {
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM professores WHERE id = ?`;
@@ -177,7 +177,7 @@ function buscarProfessorPorIdDB(id) {
     });
 }
 
-//função DB para editar aluno por ID
+//função DB para editar professor por ID
 function editarProfessorDB(id, nome, email) {
     return new Promise((resolve, reject) => {
         const sql = `UPDATE professores SET nome = ?, email = ? WHERE id = ?`;
@@ -199,7 +199,7 @@ function editarProfessorDB(id, nome, email) {
     });
 }
 
-//função DB para deletar aluno por ID
+//função DB para deletar professor por ID
 function deletarProfessorDB(id) {
     return new Promise((resolve, reject) => {
         const sql = `DELETE FROM professores WHERE id = ?`;
@@ -222,6 +222,84 @@ function deletarProfessorDB(id) {
 }
 // ------------------------------------------- FIM CRUD Professor ----------------------------------------
 
+// ---------------------------------------- INICIO CRUD Administrativo------------------------------------
+// função DB para inserir Administrativo
+function inserirAdministrativoDB(nome, email) {
+    return new Promise((resolve, reject) => {
+        const sql = `INSERT INTO administrativo (nome, email) VALUES (?, ?)`;
+        db.run(sql, [nome, email], function(err) {
+            if (err) reject(err);
+            else resolve({ id: this.lastID, nome, email });
+        });
+    });
+}
+
+//função DB para buscar todos os Administrativoes
+function buscarAdministrativoDB() {
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT * FROM administrativo`;
+        db.all(sql, [], (err, rows) => {
+            if (err) reject(err);
+            else resolve(rows);
+        });
+    });
+}
+
+//função DB para buscar Administrativo por ID
+function buscarAdministrativoPorIdDB(id) {
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT * FROM administrativo WHERE id = ?`;
+        db.get(sql, [id], (err, row) => {
+            if (err) reject(err);
+            else resolve(row || null);
+        });
+    });
+}
+
+//função DB para editar Administrativo por ID
+function editarAdministrativoDB(id, nome, email) {
+    return new Promise((resolve, reject) => {
+        const sql = `UPDATE administrativo SET nome = ?, email = ? WHERE id = ?`;
+        db.run(sql, [nome, email, id], function(err) {
+            if (err) {
+                reject(err);
+            } else {
+                if (this.changes === 0) {
+                    resolve({ success: false, message: 'Colaborador não encontrado' });
+                } else {
+                    resolve({ 
+                        success: true, 
+                        message: 'Colaborador atualizado com sucesso',
+                        changes: this.changes 
+                    });
+                }
+            }
+        });
+    });
+}
+
+//função DB para deletar Administrativo por ID
+function deletarAdministrativoDB(id) {
+    return new Promise((resolve, reject) => {
+        const sql = `DELETE FROM administrativo WHERE id = ?`;
+        db.run(sql, [id], function(err) {
+            if (err) {
+                reject(err);
+            } else {
+                if (this.changes === 0) {
+                    resolve({ success: false, message: 'Colaborador não encontrado' });
+                } else {
+                    resolve({ 
+                        success: true, 
+                        message: 'Colaborador deletado com sucesso',
+                        changes: this.changes 
+                    });
+                }
+            }
+        });
+    });
+}
+// ------------------------------------------- FIM CRUD Administrativo -----------------------------------
 
 // Exportar todas as funções
 export default {
@@ -236,5 +314,10 @@ export default {
     buscarProfessorDB,
     buscarProfessorPorIdDB,
     editarProfessorDB,
-    deletarProfessorDB
+    deletarProfessorDB,
+    inserirAdministrativoDB,
+    buscarAdministrativoDB,
+    buscarAdministrativoPorIdDB,
+    editarAdministrativoDB,
+    deletarAdministrativoDB
 };

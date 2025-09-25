@@ -52,6 +52,25 @@ class Professor {
 
 }
 
+//classe para criação do objeto "administrativo"
+class Administrativo {
+    constructor(nome, email) {
+        this.nome = nome;
+        this.email = email;
+    }
+    
+    async inserirAdministrativo() {
+        try {
+            const resultado = await database.inserirAdministrativoDB(this.nome, this.email);
+            console.log(`Administrativo ${this.nome} cadastrado com ID: ${resultado.id}`);
+            return resultado;
+        } catch (error) {
+            console.error('Erro no processo:', error.message);
+        }
+    }
+
+}
+
 // ------------------------------------------ INICIO CRUD Aluno ------------------------------------------
 //variável global 
 let novoAluno;
@@ -69,7 +88,7 @@ async function cadastrarAluno(nome, email) {
 // função de listar alunos
 async function listarAlunos() {
     try {
-        const listandoAlunos = await database.buscarAlunosDB(); // Adicione o AWAY
+        const listandoAlunos = await database.buscarAlunosDB();
         
         if (Array.isArray(listandoAlunos)) {
             console.log('\n=-=-=-=-==-=-=-=-=-=-=-=-= Alunos Encontrados -=-=-=-=-=-=-=-=-=-=-=-=-=-=');
@@ -124,10 +143,10 @@ async function editarAluno(id, novoNome, novoEmail) {
 
 // função de deletar aluno
 async function deletarAluno(id) {
+    // REMOVA esta linha - o ID deve vir como parâmetro
     id = promptSync('Digite o ID a ser EXCLUÍDO: ')
     
     try {
-        // confirmação (opcional - para segurança)
         const aluno = await database.buscarAlunoPorIdDB(id);
         
         if (!aluno) {
@@ -141,23 +160,12 @@ async function deletarAluno(id) {
         console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-');
         
         let confirmar = promptSync('Digite "SIM" para confirmar ou "NÃO" para sair: ');
-        
-        if (confirmar === 'sim') {
-            confirmar = true;
-        } else {
-            console.log("Operação cancelada!");
-            return;
-        }
-        
-        // simula uma confirmação (em app real, seria um input do usuário)
-        if (confirmar) {
-            const resultado = await database.deletarAlunoDB(id);
+               
+        if (confirmar.toLowerCase() === 'sim') {
             
-            if (resultado.success) {
-                console.log('Aluno deletado com sucesso!');
-            } else {
-                console.log('Erro ao deletar aluno:', resultado.message);
-            }
+            await database.deletarAlunoDB(id);
+            console.log('Aluno deletado com sucesso!');
+
         } else {
             console.log('Operação cancelada.');
         }
@@ -168,24 +176,24 @@ async function deletarAluno(id) {
 }
 // ------------------------------------------- FIM CRUD Aluno -------------------------------------------
 
-// ------------------------------------------ INICIO CRUD Professor ------------------------------------------
+// -------------------------------------- INICIO CRUD Professor ------------------------------------------
 //variável global 
 let novoProfessor;
 
-// função de cadastro de aluno
+// função de cadastro de Professor
 async function cadastrarProfessor(nome, email) {
-    nome = promptSync('Digite o nome do aluno: ');
-    email = promptSync('Digite o email do aluno: ');
+    nome = promptSync('Digite o nome do professor: ');
+    email = promptSync('Digite o email do professor: ');
     
     novoProfessor = new Professor(nome, email);
     await novoProfessor.inserirProfessor();
-    console.log('aluno cadastrado com sucesso!');    
+    console.log('Professor cadastrado com sucesso!');    
 }
 
-// função de listar alunos
+// função de listar Professor
 async function listarProfessor() {
     try {
-        const listandoProfessor = await database.buscarProfessorDB(); // Adicione o AWAY
+        const listandoProfessor = await database.buscarProfessorDB();
         
         if (Array.isArray(listandoProfessor)) {
             console.log('\n=-=-=-=-==-=-=-=-=-=-=-=-= Professor Encontrados -=-=-=-=-=-=-=-=-=-=-=-=-=-=');
@@ -202,11 +210,11 @@ async function listarProfessor() {
         }
         
     } catch (error) {
-        console.error('Erro ao buscar alunos:', error.message);
+        console.error('Erro ao buscar professores:', error.message);
     }
 }
 
-// função de editar aluno
+// função de editar Professor
 async function editarProfessor(id, novoNome, novoEmail) {
     id = promptSync('Digite o ID: ');
     novoNome = promptSync('Digite o NOVO nome: ');
@@ -238,13 +246,13 @@ async function editarProfessor(id, novoNome, novoEmail) {
     }
 }
 
-// função de deletar aluno
+// função de deletar Professor
 async function deletarProfessor(id) {
     id = promptSync('Digite o ID a ser EXCLUÍDO: ')
     
     try {
         // confirmação (opcional - para segurança)
-        const professor = await database.buscarProfessorDB(id);
+        const professor = await database.buscarProfessorPorIdDB(id);
         
         if (!professor) {
             console.log('Professor não encontrado!');
@@ -252,28 +260,17 @@ async function deletarProfessor(id) {
         }
 
         console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-');
-        console.log(`-=-=-=-=-=-= ATENÇÃO: Você está prestes a EXCLUIR o aluno: =-=-=-=-=-=-=-`);
+        console.log(`-=-=-=-=-= ATENÇÃO: Você está prestes a EXCLUIR o Professor: =-=-=-=-=-=-`);
         console.log(`ID: ${professor.id} | Nome: ${professor.nome} | Email: ${professor.email}`);
         console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-');
         
         let confirmar = promptSync('Digite "SIM" para confirmar ou "NÃO" para sair: ');
         
-        if (confirmar === 'sim') {
-            confirmar = true;
-        } else {
-            console.log("Operação cancelada!");
-            return;
-        }
-        
-        // simula uma confirmação (em app real, seria um input do usuário)
-        if (confirmar) {
-            const resultado = await database.deletarProfessorDB(id);
+          if (confirmar.toLowerCase() === 'sim') {
             
-            if (resultado.success) {
-                console.log('Professor deletado com sucesso!');
-            } else {
-                console.log('Erro ao deletar aluno:', resultado.message);
-            }
+            await database.deletarProfessorDB(id);
+            console.log('Professor deletado com sucesso!');
+
         } else {
             console.log('Operação cancelada.');
         }
@@ -282,7 +279,112 @@ async function deletarProfessor(id) {
         console.error('Erro ao deletar professor:', error.message);
     }
 }
-// ------------------------------------------- FIM CRUD Professor -------------------------------------------
+// ---------------------------------------- FIM CRUD Professor -------------------------------------------
+
+// -------------------------------------- INICIO CRUD Administrativo -------------------------------------
+//variável global 
+let novoAdministrativo;
+
+// função de cadastro de administrativo
+async function cadastrarAdministrativo(nome, email) {
+    nome = promptSync('Digite o nome do Administrativo: ');
+    email = promptSync('Digite o email do Administrativo: ');
+    
+    novoAdministrativo = new Administrativo(nome, email);
+    await novoAdministrativo.inserirAdministrativo();
+    console.log('Administrativo cadastrado com sucesso!');    
+}
+
+// função de listar administrativos
+async function listarAdministrativo() {
+    try {
+        const listandoAdministrativo = await database.buscarAdministrativoDB();
+        
+        if (Array.isArray(listandoAdministrativo)) {
+            console.log('\n=-=-=-=-==-=-=-=-=-=-=-=-= Colaboradores Encontrados -=-=-=-=-=-=-=-=-=-=-=-=-=-=');
+            
+            if (listandoAdministrativo.length === 0) {
+                console.log('Nenhum Colaborador cadastrado.');
+            } else {
+                listandoAdministrativo.forEach((administrativo, index) => {
+                    console.log(`ID: ${administrativo.id} | Nome: ${administrativo.nome} | Email: ${administrativo.email}`);
+                });
+            }
+        } else {
+            console.log('Erro: Retorno não é um array após await:', listandoAdministrativo);
+        }
+        
+    } catch (error) {
+        console.error('Erro ao buscar Colaboradores:', error.message);
+    }
+}
+
+// função de editar administrativo
+async function editarAdministrativo(id, novoNome, novoEmail) {
+    id = promptSync('Digite o ID: ');
+    novoNome = promptSync('Digite o NOVO nome: ');
+    novoEmail = promptSync('Digite o NOVO email: ')
+
+    try {
+        // primeiro, verifica se o administrativo existe
+        const AdministrativoExistente = await database.buscarAdministrativoPorIdDB(id);
+        
+        if (!AdministrativoExistente) {
+            console.log('Colaborador não encontrado!');
+            return;
+        }
+
+        console.log(`Colaborador atual: ${AdministrativoExistente.nome} (${AdministrativoExistente.email})`);
+        
+        // executa a edição
+        const resultado = await database.editarAdministrativoDB(id, novoNome, novoEmail);
+        
+        if (resultado.success) {
+            console.log('Colaborador editado com sucesso!');
+            console.log(`Novos dados: ${novoNome} (${novoEmail})`);
+        } else {
+            console.log('Erro ao editar Colaborador:', resultado.message);
+        }
+        
+    } catch (error) {
+        console.error('Erro ao editar Colaborador:', error.message);
+    }
+}
+
+// função de deletar Administrativo
+async function deletarAdministrativo(id) {
+    id = promptSync('Digite o ID a ser EXCLUÍDO: ')
+    
+    try {
+        // confirmação (opcional - para segurança)
+        const administrativo = await database.buscarAdministrativoPorIdDB(id);
+        
+        if (!administrativo) {
+            console.log('Colaborador não encontrado!');
+            return;
+        }
+
+        console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-');
+        console.log(`-=-=-=-=- ATENÇÃO: Você está prestes a EXCLUIR o Colaborador: -=-=-=-=-=-`);
+        console.log(`ID: ${administrativo.id} | Nome: ${administrativo.nome} | Email: ${administrativo.email}`);
+        console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-');
+        
+        let confirmar = promptSync('Digite "SIM" para confirmar ou "NÃO" para sair: ');
+        
+          if (confirmar.toLowerCase() === 'sim') {
+            
+            await database.deletarAdministrativoDB(id);
+            console.log('Colaborador deletado com sucesso!');
+
+        } else {
+            console.log('Operação cancelada.');
+        }
+        
+    } catch (error) {
+        console.error('Erro ao deletar Colaborador:', error.message);
+    }
+}
+// ---------------------------------------- FIM CRUD Administrativo --------------------------------------
 
 // ------------------------------------ INICIO de funções auxiliares -------------------------------------
 //função menu colaborador administrativo
@@ -301,13 +403,13 @@ async function menuAdministrativo() {
     
     switch(subMenu) {
         case 1:
-            menuGestaoAdministrativo();
+            await menuGestaoAdministrativo();
             break;
         case 2:
-            menuGestaoProfessor();
+            await menuGestaoProfessor();
             break;
         case 3:
-            menuGestaoAluno();
+            await menuGestaoAluno();
             break;
         case 0:
             console.log("Voltando ao menu principal...");
@@ -317,15 +419,13 @@ async function menuAdministrativo() {
     }
 }
 
-//função menu colaborador administrativo
+//função menu professor (apenas lista alunos)
 async function menuProfessor() {
     
-    console.log('=-=-=-=-= ADMINISTRATIVO =-=-=-=-');
+    console.log('=-=-=-=-=-= PROFESSOR -=-=-=-=-=-');
     console.log('| Código | Cargo                |');
     console.log('|--------|----------------------|');
-    console.log('|   1    | Gestão Administrativo|');
-    console.log('|   2    | Gestão de Professor  |');
-    console.log('|   3    | Gestão de Aluno      |');
+    console.log('|   1    | Listar Alunos        |');
     console.log('|   0    | Voltar               |');
     console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
 
@@ -333,13 +433,7 @@ async function menuProfessor() {
     
     switch(subMenu) {
         case 1:
-            menuGestaoAdministrativo();
-            break;
-        case 2:
-            menuGestaoProfessor();
-            break;
-        case 3:
-            menuGestaoAluno();
+            await listarAlunos();
             break;
         case 0:
             console.log("Voltando ao menu principal...");
@@ -349,6 +443,29 @@ async function menuProfessor() {
     }
 }
 
+//função menu aluno (apenas lista professores)
+async function menuAluno() {
+    
+    console.log('=-=-=-=-=-=-= ALUNO -=-=-=-=-=-=-');
+    console.log('| Código | Cargo                |');
+    console.log('|--------|----------------------|');
+    console.log('|   1    | Listar Professores   |');
+    console.log('|   0    | Voltar               |');
+    console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
+
+    let subMenu = parseInt(promptSync('Escolha uma opção: '));
+    
+    switch(subMenu) {
+        case 1:
+            await listarProfessor();
+            break;
+        case 0:
+            console.log("Voltando ao menu principal...");
+            break;
+        default:
+            console.log("Opção inválida! Tente novamente.");
+    }
+}
 
 //função menu gestão de alunos
 async function menuGestaoAluno() {
@@ -366,16 +483,16 @@ async function menuGestaoAluno() {
     
     switch(opcao) {
         case 1:
-            cadastrarAluno();
+            await cadastrarAluno();
             break;
         case 2:
-            editarAluno();
+            await editarAluno();
             break;
         case 3:
-            listarAlunos();
+            await listarAlunos();
             break;
         case 4:
-            deletarAluno();
+            await deletarAluno();
             break;
         case 0:
             return;
@@ -384,7 +501,7 @@ async function menuGestaoAluno() {
     }
 }
 
-//função menu gestão de alunos
+//função menu gestão de professores
 async function menuGestaoProfessor() {
     console.log('=-=-=- GESTÃO DE PROFESSOR -=--=-');
     console.log('| Código | Cargo                |');
@@ -400,16 +517,50 @@ async function menuGestaoProfessor() {
     
     switch(opcao) {
         case 1:
-            cadastrarProfessor();
+            await cadastrarProfessor();
             break;
         case 2:
-            editarProfessor();
+            await editarProfessor();
             break;
         case 3:
-            listarProfessor();
+            await listarProfessor();
             break;
         case 4:
-            deletarProfessor();
+            await deletarProfessor();
+            break;
+        case 0:
+            return;
+        default:
+            console.log("Opção inválida!");
+    }
+}
+
+//função menu gestão de administrativo
+async function menuGestaoAdministrativo() {
+    console.log('=-= GESTÃO DE ADMINISTRATIVO =-=-');
+    console.log('| Código | Cargo                |');
+    console.log('|--------|----------------------|');
+    console.log('|   1    | Cadastrar            |');
+    console.log('|   2    | Editar               |');
+    console.log('|   3    | Consultar            |');
+    console.log('|   4    | Deletar              |');
+    console.log('|   0    | Voltar               |');
+    console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
+    
+    let opcao = parseInt(promptSync('Escolha uma opção: '));
+    
+    switch(opcao) {
+        case 1:
+            await cadastrarAdministrativo();
+            break;
+        case 2:
+            await editarAdministrativo();
+            break;
+        case 3:
+            await listarAdministrativo();
+            break;
+        case 4:
+            await deletarAdministrativo();
             break;
         case 0:
             return;
