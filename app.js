@@ -23,9 +23,9 @@ class Aluno {
     
     async inserirAluno() {
         try {
+            //inseri objeto ao DB
             const resultado = await database.inserirAlunoDB(this.nome, this.email);
             console.log(`Aluno ${this.nome} cadastrado com ID: ${resultado.id}`);
-            return resultado;
         } catch (error) {
             console.error('Erro no processo:', error.message);
         }
@@ -42,9 +42,9 @@ class Professor {
     
     async inserirProfessor() {
         try {
+            //inseri objeto ao DB
             const resultado = await database.inserirProfessorDB(this.nome, this.email);
             console.log(`Professor ${this.nome} cadastrado com ID: ${resultado.id}`);
-            return resultado;
         } catch (error) {
             console.error('Erro no processo:', error.message);
         }
@@ -61,9 +61,9 @@ class Administrativo {
     
     async inserirAdministrativo() {
         try {
+            //inseri objeto ao DB
             const resultado = await database.inserirAdministrativoDB(this.nome, this.email);
             console.log(`Administrativo ${this.nome} cadastrado com ID: ${resultado.id}`);
-            return resultado;
         } catch (error) {
             console.error('Erro no processo:', error.message);
         }
@@ -80,6 +80,7 @@ async function cadastrarAluno(nome, email) {
     nome = promptSync('Digite o nome do aluno: ');
     email = promptSync('Digite o email do aluno: ');
     
+    //cria o objeto e inseri no DB
     novoAluno = new Aluno(nome, email);
     await novoAluno.inserirAluno();
     console.log('aluno cadastrado com sucesso!');    
@@ -90,12 +91,15 @@ async function listarAlunos() {
     try {
         const listandoAlunos = await database.buscarAlunosDB();
         
+        //validação de execução, apenas se for um array (evita erros inesperados)
         if (Array.isArray(listandoAlunos)) {
             console.log('\n=-=-=-=-==-=-=-=-=-=-=-=-= Alunos Encontrados -=-=-=-=-=-=-=-=-=-=-=-=-=-=');
             
+            //Validando caso não haja dados em listandoAlunos
             if (listandoAlunos.length === 0) {
                 console.log('Nenhum aluno cadastrado.');
             } else {
+                //Percorre a lista com o forEach e apresenta na tela
                 listandoAlunos.forEach((aluno, index) => {
                     console.log(`ID: ${aluno.id} | Nome: ${aluno.nome} | Email: ${aluno.email}`);
                 });
@@ -119,16 +123,19 @@ async function editarAluno(id, novoNome, novoEmail) {
         // primeiro, verifica se o aluno existe
         const alunoExistente = await database.buscarAlunoPorIdDB(id);
         
+        //validação - caso não exista
         if (!alunoExistente) {
             console.log('Aluno não encontrado!');
             return;
         }
 
+        //exibe o nome e email
         console.log(`Aluno atual: ${alunoExistente.nome} (${alunoExistente.email})`);
         
-        // executa a edição
+        // executa a edição no DB
         const resultado = await database.editarAlunoDB(id, novoNome, novoEmail);
         
+        // caso a operação ocorra com sucesso exiba o aluno cadastrado
         if (resultado.success) {
             console.log('Aluno editado com sucesso!');
             console.log(`Novos dados: ${novoNome} (${novoEmail})`);
@@ -143,26 +150,31 @@ async function editarAluno(id, novoNome, novoEmail) {
 
 // função de deletar aluno
 async function deletarAluno(id) {
-    // REMOVA esta linha - o ID deve vir como parâmetro
     id = promptSync('Digite o ID a ser EXCLUÍDO: ')
     
     try {
+        //busca o usuário no DB pelo ID
         const aluno = await database.buscarAlunoPorIdDB(id);
         
+        //validação se caso não existir dados no DB
         if (!aluno) {
             console.log('Aluno não encontrado!');
             return;
         }
 
+        //exibição de alerta antes de deletar
         console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-');
         console.log(`-=-=-=-=-=-= ATENÇÃO: Você está prestes a EXCLUIR o aluno: =-=-=-=-=-=-=-`);
         console.log(`ID: ${aluno.id} | Nome: ${aluno.nome} | Email: ${aluno.email}`);
         console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-');
         
+        //validação antes de excluir - exige sim ou não
         let confirmar = promptSync('Digite "SIM" para confirmar ou "NÃO" para sair: ');
-               
+        
+        //ajusta a resposta para minúsculo evitando erros de digitação
         if (confirmar.toLowerCase() === 'sim') {
             
+            //executa função deletar no DB por ID
             await database.deletarAlunoDB(id);
             console.log('Aluno deletado com sucesso!');
 
@@ -589,9 +601,9 @@ function menuInicial() {
 async function main() {
     await inicializarSistema();
     
-    let sair = false;
+    let sair = true;
     
-    while (!sair) {
+    while (sair) {
         menuInicial();
         const menu = parseInt(promptSync('Escolha uma opção do MENU: '));
         console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-');
@@ -609,16 +621,11 @@ async function main() {
             case 4:
                 console.log('=-==-=-=-=-Obrigado por utilizar nosso sistema. Volte Sempre!=-=-=-=-=-=-');
                 console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=');
-                sair = true;
+                sair = false;
                 break;
             default:
                 console.log('Error - Digite um código válido');
                 break;
-        }
-        
-        // Dá tempo para as operações assíncronas serem processadas
-        if (!sair) {
-            await new Promise(resolve => setTimeout(resolve, 100));
         }
     }
 }

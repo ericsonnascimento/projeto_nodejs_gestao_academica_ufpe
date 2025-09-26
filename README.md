@@ -11,12 +11,10 @@
 
 projeto/<br/>
 ├── database/<br/>
-│   ├── index.js          # Ponto de entrada principal<br/>
 │   ├── alunos.js         # Funções DB de alunos<br/>
 │   ├── professores.js    # Funções DB de professores<br/>
 │   └── administrativo.js # Funções DB de administrativo<br/>
 |── services/<br/>
-│   ├── index.js          # Ponto de entrada principal<br/>
 │   ├── alunos.js         # Funções Objeto de alunos<br/>
 │   ├── professores.js    # Funções Objeto de professores<br/>
 │   └── administrativo.js # Funções Objeto de administrativo<br/>
