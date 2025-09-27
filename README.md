@@ -61,6 +61,10 @@ projeto/<br/>
 
 ![alt text](image-4.png)
 
+6. Apresentação<br/>
+
+![alt text](image_apresentacao.jpg)
+
 ## Requisitos do Sistema
 
 1. Objetivo do Sistema:<br/>
