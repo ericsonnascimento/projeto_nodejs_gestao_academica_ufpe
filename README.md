@@ -42,18 +42,23 @@ projeto/<br/>
 ## Telas dos Sistema de Gestão Acadêmica
 
 1. Menu principal<br/>
+<br/>
 ![alt text](image.png)
 
 2. Menu de Gestão do Administrato<br/>
+<br/>
 ![alt text](image-1.png)
 
 3. Exemplo do menu CRUD<br/>
+<br/>
 ![alt text](image-2.png)
 
 4. Exemplo de busca do professor e aluno<br/>
+<br/>
 ![alt text](image-3.png)
 
 5. Exemplo de exlusão de objeto por ID<br/>
+<br/>
 ![alt text](image-4.png)
 
 ## Requisitos do Sistema
