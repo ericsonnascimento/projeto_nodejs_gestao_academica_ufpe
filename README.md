@@ -100,8 +100,8 @@ projeto/<br/>
 
 ## Responsávei pelo projeto (Turma Node.js Backend Softex - UFPE)
 
-* Ericson Nascimento
 * Alberto Pereira
+* Ericson Nascimento
 * Niedja Brasil.
 
 
